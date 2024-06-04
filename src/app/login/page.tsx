@@ -76,7 +76,7 @@ const LoginPage = () => {
         case MODE.RESET_PASSWORD:
           response = await wixClient.auth.sendPasswordResetEmail(
             email,
-            window.location.href
+            window.location.href,
           );
           setMessage("Password reset email sent. Please check your e-mail.");
           break;
@@ -93,13 +93,14 @@ const LoginPage = () => {
         case LoginState.SUCCESS:
           setMessage("Successful! You are being redirected.");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
-            response.data.sessionToken!
+            response.data.sessionToken!,
           );
 
           Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
             expires: 2,
           });
           wixClient.auth.setTokens(tokens);
+          alert("Login successful!");
           router.push("/");
           break;
         case LoginState.FAILURE:
